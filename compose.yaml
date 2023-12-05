@@ -1,1 +1,27 @@
-e
+services:
+  car-rental-system-frontend:
+  
+  car-rental-system-api:
+    build:
+      context: ./app
+    depends_on:
+      - car-rental-system-database
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+      - 35729:35729
+    develop:
+      watch:
+        - path: ./app/package.json
+          action: rebuild
+        - path: ./app
+          target: /usr/src/app
+          action: sync
+
+  car-rental-system-database:
+    image: mysql:latest
+    #volumes: 
+    #  - database:/data/db
+    ports:
+      - 27017:27017
