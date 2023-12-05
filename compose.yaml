@@ -20,7 +20,7 @@ services:
           action: sync
 
   car-rental-system-database:
-    image: mysql:latest
+    image: mysql/mysql-server:latest
     #volumes: 
     #  - database:/data/db
     ports:
