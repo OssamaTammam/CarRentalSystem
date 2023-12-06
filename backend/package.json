@@ -5,10 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "tsc && node ./dist/server.js",
-    "dev": "tsc && nodemon ./dist/server.js",
+    "dev": "nodemon ./src/server.ts",
     "debug": "tsc && ndb ./dist/server.js",
-    "build": "tsc",
-    "run": "nodemon ./dist/server.js"
+    "build": "tsc"
   },
   "author": "Ossama Tammam",
   "license": "ISC",
@@ -19,5 +18,6 @@
     "express": "^4.18.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
-  }
+  },
+  "devDependencies": {}
 }
