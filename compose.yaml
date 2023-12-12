@@ -1,6 +1,4 @@
 services:
-  car-rental-system-frontend:
-  
   car-rental-system-api:
     build:
       context: ./app
