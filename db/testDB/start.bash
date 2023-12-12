@@ -2,6 +2,9 @@
 
 # Bash script to start dev mysql database
 
+# Pull the docker image
+docker pull mysql:8.2.0
+
 # Build the docker image
 docker build -t my-mysql-container .
 
