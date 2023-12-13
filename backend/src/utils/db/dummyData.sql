@@ -1,4 +1,3 @@
--- Insert dummy data into the office table
 INSERT INTO office (location, phone_number, email)
 VALUES (
         'Office1 Location',
@@ -10,7 +9,6 @@ VALUES (
         '987-654-3210',
         'office2@example.com'
     );
--- Insert dummy data into the car table
 INSERT INTO car (
         plate_id,
         model,
@@ -29,12 +27,10 @@ VALUES (1, 'Car Model 1', 2022, 50.00, 'Active', 1),
         1
     ),
     (3, 'Car Model 3', 2023, 70.00, 'Rented', 2);
--- Insert dummy data into the car_specs table
 INSERT INTO car_specs (plate_id, color, horse_power)
 VALUES (1, 'Red', 200),
     (2, 'Blue', 180),
     (3, 'Black', 220);
--- Insert dummy data into the user table
 INSERT INTO user (
         username,
         first_name,
@@ -68,7 +64,6 @@ VALUES (
         '555-5678',
         'Admin'
     );
--- Insert dummy data into the reservation table
 INSERT INTO reservation (
         plate_id,
         user_id,

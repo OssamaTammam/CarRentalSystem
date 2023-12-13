@@ -1,7 +1,5 @@
--- Create DB only if it doesn't exist
 CREATE DATABASE IF NOT EXISTS car_rental_system;
 USE car_rental_system;
--- Create tables
 CREATE TABLE car(
     plate_id BIGINT NOT NULL,
     model VARCHAR(50) NOT NULL,
@@ -50,7 +48,6 @@ CREATE TABLE user(
     jwt VARCHAR(255) NULL,
     PRIMARY KEY (user_id)
 );
--- Adding foreign keys
 ALTER TABLE car
 ADD CONSTRAINT fk_car_office_id FOREIGN KEY (office_id) REFERENCES office(office_id);
 ALTER TABLE car_specs
