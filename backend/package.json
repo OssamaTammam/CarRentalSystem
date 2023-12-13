@@ -5,19 +5,21 @@
   "main": "server.js",
   "scripts": {
     "start": "tsc && node ./dist/server.js",
-    "dev": "nodemon ./src/server.ts",
-    "debug": "tsc && ndb ./dist/server.js",
+    "dev": "nodemon ./src/server.js",
+    "debug": "ndb ./src/server.js",
     "build": "tsc"
   },
   "author": "Ossama Tammam",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.10.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "mysql2": "^3.6.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
-  },
-  "devDependencies": {}
+  }
 }

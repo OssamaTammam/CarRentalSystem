@@ -18,10 +18,10 @@ services:
           action: sync
 
   car-rental-system-database:
-    image: mysql:8.0
+    image: mysql:8.2.0
     container_name: car-rental-system-mysql-db
     restart: unless-stopped
     #volumes: 
     #  - database:/data/db
     ports:
-      - 27017:27017
+      - 33066:3306
