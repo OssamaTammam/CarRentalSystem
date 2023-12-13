@@ -9,4 +9,4 @@ docker pull mysql:8.2.0
 docker build -t my-mysql-container .
 
 # Run the container
-docker run -d -p 3336:3336 --name test-db my-mysql-container
+docker run -d -p 6033:3306 --name test-db my-mysql-container
