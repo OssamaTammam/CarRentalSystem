@@ -10,4 +10,5 @@ const port = process.env.PORT || 3000;
 const mainApp = require("./app");
 mainApp.listen(port, () => {
   console.log(`App running on port ${port}`);
+  console.log(`Database running on port ${process.env.DB_PORT}`);
 });
