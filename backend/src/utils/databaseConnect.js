@@ -13,7 +13,7 @@ execSqlFile(dbInitConnection, "dummyData.sql");
 
 dbInitConnection.end();
 
-module.exports = mysql.createPool({
+const dbPool = mysql.createPool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   user: process.env.DB_USER,
@@ -21,3 +21,5 @@ module.exports = mysql.createPool({
   database: process.env.DB_NAME,
   connectionLimit: 10,
 });
+
+module.exports = dbPool;
