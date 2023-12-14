@@ -1,9 +1,11 @@
 class QueryBuilder {
+  query: string;
+
   constructor() {
     this.query = "";
   }
 
-  select(...columns) {
+  select(...columns: string[]) {
     this.query += "SELECT";
 
     columns.forEach((element) => {
@@ -13,12 +15,8 @@ class QueryBuilder {
     this.query += " ";
   }
 
-  from(table) {
-    this.query += `FROM ${table} `;
-  }
-
-  join(...joins) {
-    for (const join in joins) {
+  join(...joins: { type: string; table: string; condition: string }[]) {
+    for (const join of joins) {
       const { type, table, condition } = join;
 
       this.query += `${type} JOIN ${table} ON ${condition},`;
@@ -27,8 +25,6 @@ class QueryBuilder {
     // Remove trailing comma
     this.query = this.query.slice(0, -1);
   }
-
-  where;
 }
 
-module.exports = QueryBuilder;
+export default QueryBuilder;
