@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS reservation(
 );
 CREATE TABLE IF NOT EXISTS user(
     user_id BIGINT AUTO_INCREMENT NOT NULL,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     birth_date DATE NOT NULL,
     address VARCHAR(255) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
     role ENUM("Admin", "User") DEFAULT "User" NOT NULL,
