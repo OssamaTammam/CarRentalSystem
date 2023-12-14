@@ -8,7 +8,7 @@
     "dev": "nodemon ./src/server.ts",
     "build": "tsc"
   },
-  "author": "Ossama Tammam",
+  "author": "Ossama Tammam, Seif ElSayaad",
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.31.2",
