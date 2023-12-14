@@ -1,12 +1,9 @@
 // Env variables config file
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 
-// DB connection settings
-const dbConnection = require("./utils/databaseConnect");
-
 // Start the main app
-const port = process.env.PORT || 3000;
+const port: number = parseInt(process.env.PORT || "3000", 10);
 const mainApp = require("./app");
 mainApp.listen(port, () => {
   console.log(`App running on port ${port}`);
