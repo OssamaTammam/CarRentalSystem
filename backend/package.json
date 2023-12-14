@@ -4,20 +4,20 @@
   "description": "Simple car rental system api!",
   "main": "server.js",
   "scripts": {
-    "start": "tsc && node ./dist/server.js",
-    "dev": "nodemon ./src/server.ts",
-    "build": "tsc"
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
   },
-  "author": "Ossama Tammam",
+  "author": "Ossama Tammam, Seif ElSayaad",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.31.2",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mysql2": "^3.6.5"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "typescript": "^5.3.3",
-    "@types/node": "^20.10.4"
+    "@types/node": "^20.10.4",
+    "typescript": "^5.3.3"
   }
 }

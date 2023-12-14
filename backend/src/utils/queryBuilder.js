@@ -1,11 +1,9 @@
 class QueryBuilder {
-  query: string;
-
   constructor() {
     this.query = "";
   }
 
-  select(...columns: string[]) {
+  select(...columns) {
     this.query += "SELECT";
 
     columns.forEach((element) => {
@@ -15,7 +13,7 @@ class QueryBuilder {
     this.query += " ";
   }
 
-  join(...joins: { type: string; table: string; condition: string }[]) {
+  join(...joins) {
     for (const join of joins) {
       const { type, table, condition } = join;
 
@@ -27,4 +25,4 @@ class QueryBuilder {
   }
 }
 
-export default QueryBuilder;
+module.exports = QueryBuilder;
