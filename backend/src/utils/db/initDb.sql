@@ -49,10 +49,10 @@ CREATE TABLE IF NOT EXISTS user(
     PRIMARY KEY (user_id)
 );
 ALTER TABLE car
-ADD CONSTRAINT IF NOT EXISTS fk_car_office_id FOREIGN KEY (office_id) REFERENCES office(office_id);
+ADD CONSTRAINT fk_car_office_id FOREIGN KEY (office_id) REFERENCES office(office_id);
 ALTER TABLE car_specs
-ADD CONSTRAINT IF NOT EXISTS fk_car_plate_id FOREIGN KEY (plate_id) REFERENCES car(plate_id);
+ADD CONSTRAINT fk_car_plate_id FOREIGN KEY (plate_id) REFERENCES car(plate_id);
 ALTER TABLE reservation
-ADD CONSTRAINT IF NOT EXISTS fk_reservation_plate_id FOREIGN KEY (plate_id) REFERENCES car(plate_id),
-    ADD CONSTRAINT IF NOT EXISTS fk_reservation_user_id FOREIGN KEY (user_id) REFERENCES user(user_id),
-    ADD CONSTRAINT IF NOT EXISTS fk_reservation_office_id FOREIGN KEY (office_id) REFERENCES office(office_id);
+ADD CONSTRAINT fk_reservation_plate_id FOREIGN KEY (plate_id) REFERENCES car(plate_id),
+    ADD CONSTRAINT fk_reservation_user_id FOREIGN KEY (user_id) REFERENCES user(user_id),
+    ADD CONSTRAINT fk_reservation_office_id FOREIGN KEY (office_id) REFERENCES office(office_id);
