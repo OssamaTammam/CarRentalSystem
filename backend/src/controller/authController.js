@@ -1,8 +1,7 @@
-import { NextFunction } from "express";
-import dbPool from "../utils/databaseConnect";
-import { hashPassword } from "../utils/passwordHashing";
+const dpPool = require("../utils/databaseConnect");
+const password = require("../utils/passwordHashing");
 
-exports.signUp = async (req: Request, res: Response, next: NextFunction) => {
+exports.signUp = async (req, res, next) => {
   if (!req.body) {
     next("error");
   }
@@ -16,7 +15,7 @@ exports.signUp = async (req: Request, res: Response, next: NextFunction) => {
       req.body.birthDate,
       req.body.address,
       req.body.email,
-      hashPassword(req.body.password),
+      password.hashPassword(req.body.password),
       req.body.phoneNumber,
       req.body.role,
     ],
