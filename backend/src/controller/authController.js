@@ -7,8 +7,7 @@ exports.signUp = async (req, res, next) => {
       status: "fail",
     });
   }
-  req.body.password = passwordHashing.hashPassword(req.body.password);
-  console.log("here");
+
   const result = await dbPool.execute(
     "INSERT INTO user (username,first_name,last_name,birth_date,address,email,password_hash,phone_number,role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
@@ -18,13 +17,11 @@ exports.signUp = async (req, res, next) => {
       req.body.birthDate,
       req.body.address,
       req.body.email,
-      req.body.password,
+      await passwordHashing.hashPassword(req.body.password),
       req.body.phoneNumber,
       req.body.role,
     ],
   );
-
-  console.log(result);
 
   res.status(200).json({
     status: "success",
