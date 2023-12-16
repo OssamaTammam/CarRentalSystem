@@ -1,33 +1,14 @@
-class User {
-  constructor(
-    userId,
-    username,
-    firstName,
-    lastName,
-    birthDate,
-    address,
-    email,
-    hashedPassword,
-    phoneNumber,
-    role,
-    jwt,
-  ) {
-    this.userId = userId;
-    this.username = username;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.birthDate = birthDate;
-    this.address = address;
-    this.email = email;
-    this.hashedPassword = hashedPassword;
-    this.phoneNumber = phoneNumber;
-    this.role = role;
-    this.jwt = jwt;
-  }
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  getFullName() {
-    return `${this.firstName} ${this.lastName}`;
-  }
-}
+exports.checkSignUpInfo = (username, email, password) => {
+  if (!EMAIL_REGEX.test(email)) return false;
+  if (password.length < 8) return false;
+  if (username < 4) return false;
 
-module.exports = User;
+  return true;
+};
+
+exports.checkLoginInfo = (email) => {
+  if (!EMAIL_REGEX.test(email)) return false;
+  return true;
+};
