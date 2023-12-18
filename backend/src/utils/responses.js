@@ -19,3 +19,24 @@ exports.loginInvalidInfo = (res) => {
     message: "Email or password incorrect",
   });
 };
+
+exports.permissionDenied = (res) => {
+  return res.status(400).json({
+    status: "fail",
+    message: "You don't have the privileges to do this action",
+  });
+};
+
+exports.notLoggedIn = (res) => {
+  return res.status(400).json({
+    status: "fail",
+    message: "You are not logged in",
+  });
+};
+
+exports.userNotExist = (res) => {
+  return res.status(400).json({
+    status: "fail",
+    message: "User no longer exists",
+  });
+};

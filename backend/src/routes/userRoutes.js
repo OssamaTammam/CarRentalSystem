@@ -8,6 +8,13 @@ const userRouter = express.Router();
 // No auth required to access these pages
 userRouter.post("/signup", authController.signUp);
 userRouter.post("/login", authController.logIn);
+userRouter.get("/logout", authController.logOut);
+
+// Login required
+userRouter.use(authController.protect);
+
+// Auth required to access
+userRouter.use(authController.restrictTo("Admin"));
 
 userRouter.get("", userController.getAllUsers);
 userRouter

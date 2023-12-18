@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 
 const globalErrorHandler = require("./controller/errorController");
 
@@ -10,6 +11,8 @@ app.use(morgan("dev"));
 
 // Puts data into req.body
 app.use(express.json());
+// Read cookies
+app.use(cookieParser());
 
 // Routers
 app.use("/user", userRouter);
