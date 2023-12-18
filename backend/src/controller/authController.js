@@ -18,11 +18,10 @@ exports.signUp = async (req, res, next) => {
       !user.checkSignUpInfo(
         req.body.username,
         req.body.email,
-        req.body,
-        password,
+        req.body.password,
       )
     ) {
-      return responses.signupInvalidInfo();
+      return responses.signupInvalidInfo(res);
     }
 
     const result = await dbPool.execute(
@@ -65,7 +64,7 @@ exports.logIn = async (req, res, next) => {
 
     // Check if email is on the right format
     if (!user.checkLoginInfo(email)) {
-      return responses.loginInvalidInfo();
+      return responses.loginInvalidInfo(res);
     }
 
     // Get all the user's info
@@ -78,7 +77,7 @@ exports.logIn = async (req, res, next) => {
 
     // Check if the password is correct
     if (!passwordHashing.verifyPassword(password, hashedPassword)) {
-      return responses.loginInvalidInfo();
+      return responses.loginInvalidInfo(res);
     }
 
     const jwt = await token.createJWT(userId, res);
