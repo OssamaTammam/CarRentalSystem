@@ -79,3 +79,64 @@ exports.deleteUser = async (req, res, next) => {
     next(new AppError(error.message, 400));
   }
 };
+
+exports.getMe = async (req, res, next) => {
+  try {
+    const [results, fields] = await dbPool.execute(
+      "SELECT user_id,username,first_name,last_name,birth_date,address,email,phone_number,role FROM user WHERE user_id = (?)",
+      [req.user.userId],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        results,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.updateMe = async (req, res, next) => {
+  try {
+    const [results, fields] = await dbPool.execute(
+      "UPDATE user SET first_name = (?),last_name = (?),birth_date = (?),address = (?),phone_number = (?) WHERE user_id = (?)",
+      [
+        req.body.firstName,
+        req.body.lastName,
+        req.body.birthDate,
+        req.body.address,
+        req.body.phoneNumber,
+        req.user.userId,
+      ],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        results,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.deleteMe = async (req, res, next) => {
+  try {
+    const [results, fields] = await dbPool.execute(
+      "DELETE FROM user WHERE user_id = (?)",
+      [req.user.userId],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        results,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
