@@ -13,8 +13,7 @@ userRouter.get("/logout", authController.logOut);
 // Login required
 userRouter.use(authController.protect);
 userRouter
-  .use("/me")
-  .use(authController.protect)
+  .route("/me")
   .get(userController.getMe)
   .patch(userController.updateMe)
   .delete(userController.deleteMe);
