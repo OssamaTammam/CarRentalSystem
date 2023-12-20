@@ -42,8 +42,9 @@ exports.getCar = async (req, res, next) => {
 exports.addCar = async (req, res, next) => {
   try {
     const results = await dbPool.execute(
-      "INSERT INTO Car (model,year,price_per_day,status,office_id) VALUES (?,?,?,?,?)",
+      "INSERT INTO car (plate_id,model,year,price_per_day,status,office_id) VALUES (?,?,?,?,?,?)",
       [
+        req.body.plateId,
         req.body.model,
         req.body.year,
         req.body.pricePerDay,

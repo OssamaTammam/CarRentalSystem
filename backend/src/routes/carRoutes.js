@@ -7,10 +7,10 @@ const userController = require("../controller/userController");
 const carRouter = express.Router();
 
 // No auth required to access these pages
-carRouter.get("/getallcars", carController.getAllCars);
-carRouter.get("/getcar/:model", carController.getCar);
+carRouter.route("").get(carController.getAllCars);
+carRouter.get("/:id", carController.getCar);
 
-carRouter.put("/addcar", carController.addCar);
+carRouter.post("", carController.addCar);
 // Login required
 
 // Auth required to access
