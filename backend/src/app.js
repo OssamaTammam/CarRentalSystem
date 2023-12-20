@@ -6,7 +6,7 @@ const globalErrorHandler = require("./controller/errorController");
 
 const userRouter = require("./routes/userRoutes");
 const carRouter = require("./routes/carRoutes");
-
+//const officeRouter = require("./routes/officeRoutes");
 const app = express();
 app.use(morgan("dev"));
 
@@ -18,6 +18,7 @@ app.use(cookieParser());
 // Routers
 app.use("/user", userRouter);
 app.use("/car", carRouter);
+//app.use("/office", officeRouter);
 
 // Global error handler
 app.use(globalErrorHandler);

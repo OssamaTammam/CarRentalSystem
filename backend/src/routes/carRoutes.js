@@ -8,9 +8,12 @@ const carRouter = express.Router();
 
 // No auth required to access these pages
 carRouter.route("").get(carController.getAllCars);
-carRouter.get("/:id", carController.getCar);
+carRouter.route("").post(carController.addCar);
+carRouter
+  .route("/:model")
+  .get(carController.getCar)
+  .patch(carController.updateCar);
 
-carRouter.post("", carController.addCar);
 // Login required
 
 // Auth required to access
