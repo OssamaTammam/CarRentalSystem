@@ -12,6 +12,7 @@ carRouter.route("").post(carController.addCar);
 carRouter
   .route("/:model")
   .get(carController.getCar)
+  .delete(carController.deleteCar)
   .patch(carController.updateCar);
 
 // Login required

@@ -86,3 +86,21 @@ exports.updateCar = async (req, res, next) => {
     next(new AppError(error.message, 400));
   }
 };
+
+exports.deleteCar = async (req, res, next) => {
+  try {
+    const [results, fields] = await dbPool.execute(
+      "DELETE FROM car WHERE model = (?)",
+      [req.params.model],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        results,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
