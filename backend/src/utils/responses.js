@@ -1,3 +1,10 @@
+exports.resGenerator = (res, statusCode, status, message) => {
+  return res.status(statusCode).json({
+    status,
+    message,
+  });
+};
+
 exports.reqBodyEmpty = (res) => {
   return res.status(400).json({
     status: "fail",
