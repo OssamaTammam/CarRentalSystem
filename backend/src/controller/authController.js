@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
+
 const dbPool = require("../utils/databaseConnect");
 const passwordHashing = require("../utils/passwordHashing");
 const AppError = require("../utils/appError");
 const responses = require("../utils/responses");
 const token = require("../utils/token");
+
 const user = require("../model/userModel");
-const util = require("util");
-const promisify = util.promisify;
 
 const updateJwt = async (jwt, userId) => {
   await dbPool.execute("UPDATE user SET jwt = (?) WHERE user_id = (?) ", [
