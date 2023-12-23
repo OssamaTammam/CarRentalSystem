@@ -1,12 +1,10 @@
 const dbPool = require("../utils/databaseConnect");
 const AppError = require("../utils/appError");
-const responses = require("../utils/responses");
-const util = require("util");
 
 exports.getAllCars = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "SELECT plate_id,model,year,price_per_day,status,office_id FROM car",
+      "SELECT car_id,plate_id,model,year,price_per_day,status,office_id FROM car",
     );
 
     res.status(200).json({
@@ -22,10 +20,9 @@ exports.getAllCars = async (req, res, next) => {
 
 exports.getCar = async (req, res, next) => {
   try {
-    const model = req.params.model;
     const [results, fields] = await dbPool.execute(
-      "SELECT model,year,price_per_day,status,office_id FROM car WHERE model = (?)",
-      [model],
+      "SELECT plate_id,model,year,price_per_day,status,office_id FROM car WHERE car_id = (?)",
+      [req.params.carId],
     );
 
     res.status(200).json({
@@ -67,12 +64,12 @@ exports.addCar = async (req, res, next) => {
 exports.updateCar = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "UPDATE car SET price_per_day=(?),status = (?),office_id=(?) WHERE model = (?)",
+      "UPDATE car SET price_per_day=(?),status = (?),office_id=(?) WHERE car_id = (?)",
       [
         req.body.pricePerDay,
         req.body.status,
         req.body.officeId,
-        req.params.model,
+        req.params.carId,
       ],
     );
 
@@ -90,8 +87,8 @@ exports.updateCar = async (req, res, next) => {
 exports.deleteCar = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "DELETE FROM car WHERE model = (?)",
-      [req.params.model],
+      "DELETE FROM car WHERE car_id = (?)",
+      [req.params.carId],
     );
 
     res.status(200).json({
