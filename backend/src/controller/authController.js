@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
+
 const dbPool = require("../utils/databaseConnect");
 const passwordHashing = require("../utils/passwordHashing");
 const AppError = require("../utils/appError");
 const responses = require("../utils/responses");
 const token = require("../utils/token");
+
 const user = require("../model/userModel");
-const util = require("util");
-const promisify = util.promisify;
 
 const updateJwt = async (jwt, userId) => {
   await dbPool.execute("UPDATE user SET jwt = (?) WHERE user_id = (?) ", [
@@ -28,7 +28,7 @@ exports.signUp = async (req, res, next) => {
     }
 
     const result = await dbPool.execute(
-      "INSERT INTO user (username,first_name,last_name,birth_date,address,email,password_hash,phone_number,role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO user (username,first_name,last_name,birth_date,address,email,password_hash,phone_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [
         req.body.username,
         req.body.firstName,
@@ -38,7 +38,6 @@ exports.signUp = async (req, res, next) => {
         req.body.email,
         await passwordHashing.hashPassword(req.body.password),
         req.body.phoneNumber,
-        req.body.role,
       ],
     );
 
@@ -137,7 +136,6 @@ exports.protect = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   }
-  console.log(token);
 
   if (token === "null") {
     console.log("Token is null or undefined");
