@@ -1,6 +1,6 @@
 const validator = require("validator");
 const dbPool = require("../utils/databaseConnect");
-const responses = require("../utils/responses");
+const resGenerator = require("../utils/responseGenerator");
 
 // Information sent (carId, pickupDate, returnDate, noDays, paymentStatus)
 exports.reserveCar = async (req, res, next) => {
@@ -18,7 +18,7 @@ exports.reserveCar = async (req, res, next) => {
       !validator.isDate(req.body.returnDate) ||
       req.body.noDays <= 0
     ) {
-      return responses.resGenerator(
+      return resGenerator(
         res,
         400,
         "fail",
@@ -28,17 +28,12 @@ exports.reserveCar = async (req, res, next) => {
 
     // Car doesn't exist
     if (!carResults[0]) {
-      return responses.resGenerator(res, 400, "fail", "car doesn't exist");
+      return resGenerator(res, 400, "fail", "car doesn't exist");
     }
 
     // Car isn't available for renting
     if (carResults[0].status != "Available") {
-      return responses.resGenerator(
-        res,
-        400,
-        "fail",
-        "car isn't available for renting",
-      );
+      return resGenerator(res, 400, "fail", "car isn't available for renting");
     }
 
     // Calculate total price

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const dbPool = require("../utils/databaseConnect");
 const passwordHashing = require("../utils/passwordHashing");
 const AppError = require("../utils/appError");
-const responses = require("../utils/responses");
+const resGenerator = require("../utils/responseGenerator");
 const token = require("../utils/token");
 
 const user = require("../model/userModel");
@@ -24,7 +24,12 @@ exports.signUp = async (req, res, next) => {
         req.body.password,
       )
     ) {
-      return responses.signupInvalidInfo(res);
+      return resGenerator(
+        res,
+        400,
+        "fail",
+        "Invalid info username must be 4 characters or more, password must be 8 characters or more and email must be on valid form",
+      );
     }
 
     const result = await dbPool.execute(
@@ -66,7 +71,7 @@ exports.logIn = async (req, res, next) => {
 
     // Check if email is on the right format
     if (!user.checkLoginInfo(email)) {
-      return responses.loginInvalidInfo(res);
+      return resGenerator(res, 400, "fail", "Email or password incorrect");
     }
 
     // Get all the user's info
@@ -76,7 +81,7 @@ exports.logIn = async (req, res, next) => {
     );
 
     if (!results[0]) {
-      return responses.loginInvalidInfo(res);
+      return resGenerator(res, 400, "fail", "Email or password incorrect");
     }
 
     const userId = results[0].user_id;
@@ -84,7 +89,7 @@ exports.logIn = async (req, res, next) => {
 
     // Check if the password is correct
     if (!(await passwordHashing.verifyPassword(password, hashedPassword))) {
-      return responses.loginInvalidInfo(res);
+      return resGenerator(res, 400, "fail", "Email or password incorrect");
     }
 
     const jwt = await token.createJWT(userId, res);
@@ -118,7 +123,12 @@ exports.restrictTo =
 
     //Check if the role has access
     if (!roles.includes(req.user.role)) {
-      return responses.permissionDenied(res);
+      return resGenerator(
+        res,
+        400,
+        "fail",
+        "You don't have the privileges to do this action",
+      );
     }
 
     //If reached it means the role has access
@@ -139,7 +149,7 @@ exports.protect = async (req, res, next) => {
 
   if (token === "null") {
     console.log("Token is null or undefined");
-    return responses.notLoggedIn(res);
+    return resGenerator(res, 400, "fail", "You are not logged in");
   }
 
   //Makes a sync func return a promise
@@ -152,7 +162,7 @@ exports.protect = async (req, res, next) => {
   );
 
   if (!results[0]) {
-    return responses.userNotExist(res);
+    return resGenerator(res, 400, "fail", "User no longer exists");
   }
 
   const currUser = {
