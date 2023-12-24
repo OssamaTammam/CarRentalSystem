@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS car(
     model VARCHAR(50) NOT NULL,
     year INT NOT NULL,
     price_per_day FLOAT NOT NULL,
-    status ENUM("Active", "Out of Service", "Rented") NOT NULL,
+    status ENUM("Available", "Out of Service", "Rented") NOT NULL,
     office_id BIGINT NOT NULL,
     PRIMARY KEY (car_id)
 );

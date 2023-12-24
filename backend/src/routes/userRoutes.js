@@ -4,7 +4,11 @@ const authController = require("../controller/authController");
 const userController = require("../controller/userController");
 const carController = require("../controller/carController");
 
+const reservationRouter = require("./reservationRoutes");
 const userRouter = express.Router();
+
+// Mount user reservations on top of the user
+userRouter.use("/:username/reservations", reservationRouter);
 
 // No auth required to access these pages
 userRouter.post("/signup", authController.signUp);
