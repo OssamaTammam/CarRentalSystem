@@ -6,12 +6,12 @@ const authController = require("../controller/authController");
 const reservationRouter = express.Router({ mergeParams: true });
 
 // Login required
-// reservationRouter.use(authController.protect);
+reservationRouter.use(authController.protect);
 reservationRouter.route("").get(reservationController.getMyReservations);
 reservationRouter.route("/reserve").post(reservationController.reserveCar);
 
 // Auth required to access
-// reservationRouter.use(authController.restrictTo("Admin"));
+reservationRouter.use(authController.restrictTo("Admin"));
 reservationRouter.route("").get(reservationController.getAllReservations);
 reservationRouter
   .route("/:resId")

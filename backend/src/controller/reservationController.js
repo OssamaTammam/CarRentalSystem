@@ -171,3 +171,39 @@ exports.deleteReservation = async (req, res, next) => {
     next(new AppError(error.message, 400));
   }
 };
+
+exports.getMyReservations = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation WHERE user_id = (?)",
+      [req.user.userId],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservations: resResults,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.getAllReservations = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation",
+      [],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservations: resResults,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
