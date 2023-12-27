@@ -25,9 +25,10 @@ const Account = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        credentials: "include",
       },
     });
+
     const data = await res.json();
     setFirstName(data.firstName);
     setLastName(data.lastName);
