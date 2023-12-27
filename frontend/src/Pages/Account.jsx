@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const Account = () => {
   const [firstName, setFirstName] = useState("");
@@ -42,10 +43,10 @@ const Account = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!token) {
+    if (!isLoggedIn()) {
       window.location.href = "/login";
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     getUser();
