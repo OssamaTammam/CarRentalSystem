@@ -1,6 +1,8 @@
 const validator = require("validator");
+
 const dbPool = require("../utils/databaseConnect");
 const resGenerator = require("../utils/responseGenerator");
+const AppError = require("../utils/appError");
 
 // Information sent (carId, pickupDate, returnDate, noDays, paymentStatus)
 exports.reserveCar = async (req, res, next) => {
@@ -87,6 +89,121 @@ exports.reserveCar = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.getMyReservations = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation WHERE user_id = (?)",
+      [req.user.userId],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservations: resResults,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.getAllReservations = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation",
+      [],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservations: resResults,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.getReservation = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation WHERE reservation_id = (?)",
+      [req.params.resId],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservation: resResults[0],
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.deleteReservation = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation WHERE reservation_id = (?)",
+      [req.params.resId],
+    );
+
+    await dbPool.execute(
+      'UPDATE car SET status="available" WHERE car_id = (?)',
+      [resResults[0].car_id],
+    );
+
+    await dbPool.execute("DELETE FROM reservation WHERE reservation_id = (?)", [
+      resResults[0].reservation_id,
+    ]);
+
+    res.status(200).json({
+      status: "success",
+      message: `reservation ${resResults[0].reservation_id} deleted successfully`,
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.getMyReservations = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation WHERE user_id = (?)",
+      [req.user.userId],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservations: resResults,
+      },
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
+};
+
+exports.getAllReservations = async (req, res, next) => {
+  try {
+    const [resResults, resFields] = await dbPool.execute(
+      "SELECT * FROM reservation",
+      [],
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        reservations: resResults,
+      },
+    });
+  } catch (error) {
     next(new AppError(error.message, 400));
   }
 };
