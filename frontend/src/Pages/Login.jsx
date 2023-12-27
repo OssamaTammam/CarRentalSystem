@@ -23,9 +23,10 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
+      credentials: "include", // This includes cookies in the request
     });
+
     if (res.status === 200) {
-      localStorage.setItem("token", "test");
       window.location.href = "/";
     } else {
       setError("Invalid Credentials");
@@ -67,7 +68,7 @@ const Login = () => {
             </a>
           </div>
           <div className="nav-menu-btn">
-            <i className="bx bx-menu" onclick="myMenuFunction()"></i>
+            <i className="bx bx-menu" onClick="myMenuFunction()"></i>
           </div>
         </nav>
 

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
@@ -16,7 +16,7 @@ const Signup = () => {
     if (
       !firstName ||
       !lastName ||
-      !userName ||
+      !username ||
       !email ||
       !phoneNumber ||
       !address ||
@@ -30,7 +30,7 @@ const Signup = () => {
     const user = {
       firstName,
       lastName,
-      userName,
+      username,
       email,
       phoneNumber,
       address,
@@ -41,9 +41,16 @@ const Signup = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        credentials: "include", // This includes cookies in the request
       },
       body: JSON.stringify(user),
     });
+
+    if (res.status === 200) {
+      window.location.href = "/";
+    } else {
+      setError("Invalid Credentials");
+    }
   };
   const token = localStorage.getItem("token");
 
@@ -81,7 +88,7 @@ const Signup = () => {
             </a>
           </div>
           <div className="nav-menu-btn">
-            <i className="bx bx-menu" onclick="myMenuFunction()"></i>
+            <i className="bx bx-menu" onClick="myMenuFunction()"></i>
           </div>
         </nav>
         <form className="form-box" onSubmit={handleSubmit}>
@@ -114,12 +121,12 @@ const Signup = () => {
             </div>
             <div className="input-box">
               <input
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                name="userName"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                name="username"
                 type="text"
                 className="input-field"
-                placeholder="Username"
+                placeholder="username"
               />
               <i className="bx bx-user"></i>
             </div>

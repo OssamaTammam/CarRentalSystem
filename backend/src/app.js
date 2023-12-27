@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const globalErrorHandler = require("./controller/errorController");
 
@@ -10,6 +11,23 @@ const reservationRouter = require("./routes/reservationRoutes");
 //const officeRouter = require("./routes/officeRoutes");
 
 const app = express();
+
+// Example Express.js middleware to allow credentials
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", [
+    "http://localhost:3000",
+    "http://localhost:5173",
+  ]); // Update with your client's origin
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
 // Log requests into the console
 app.use(morgan("dev"));
