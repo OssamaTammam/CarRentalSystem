@@ -40,11 +40,9 @@ const Account = () => {
     setBirthDate(data.birthDate);
   };
 
-  const token = localStorage.getItem("token");
-
   useEffect(() => {
     if (!isLoggedIn()) {
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   }, []);
 

@@ -59,6 +59,7 @@ const Signup = () => {
       window.location.href = "/";
     }
   }, []);
+
   return (
     <div className="resetPassword">
       <div className="wrapper">

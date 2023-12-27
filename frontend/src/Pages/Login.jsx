@@ -23,6 +23,7 @@ const Login = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(user),
     });
 
@@ -32,13 +33,16 @@ const Login = () => {
       setError("Invalid Credentials");
     }
   };
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!isLoggedIn()) {
-      window.location.href = "/";
+    async function fetchData() {
+      if (await isLoggedIn()) {
+        window.location.href = "/";
+      }
     }
+    fetchData();
   }, []);
+
   return (
     <div className="resetPassword">
       <div className="wrapper">

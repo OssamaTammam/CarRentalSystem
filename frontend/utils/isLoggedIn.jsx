@@ -1,12 +1,14 @@
 const isLoggedIn = async () => {
   const res = await fetch("http://localhost:3000/user/isLoggedIn", {
-    method: "get",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
-      credentials: "include", // This includes cookies in the request
     },
+    credentials: "include", // This includes cookies in the request
   });
-  if (res.status === 200) {
+
+  console.log(res.status);
+  if (res.ok) {
     return true;
   } else {
     return false;
