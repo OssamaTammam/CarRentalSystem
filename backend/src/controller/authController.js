@@ -107,7 +107,7 @@ exports.logIn = async (req, res, next) => {
 exports.logOut = (req, res) => {
   res.cookie("jwt", "logged out", {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true,
+    httpOnly: false,
   });
 
   res.status(200).json({
@@ -147,7 +147,7 @@ exports.protect = async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
 
-  if (token === "null") {
+  if (token === "null" || !token) {
     console.log("Token is null or undefined");
     return resGenerator(res, 400, "fail", "You are not logged in");
   }
@@ -177,4 +177,38 @@ exports.protect = async (req, res, next) => {
   res.locals.user = currUser;
 
   next();
+};
+
+exports.isLoggedIn = async (req, res, next) => {
+  try {
+    let token;
+    if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+
+    if (token === "null" || !token) {
+      console.log("Token is null or undefined");
+      return resGenerator(res, 400, "fail", "You are not logged in");
+    }
+
+    //Makes a sync func return a promise
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+
+    //3. Check is user still exits
+    const [results, fields] = await dbPool.execute(
+      "SELECT user_id, username, role FROM user WHERE user_id = ?",
+      [decoded.userId],
+    );
+
+    if (!results[0]) {
+      return resGenerator(res, 400, "fail", "User is not logged in");
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "User is logged in",
+    });
+  } catch (error) {
+    next(new AppError(error.message, 400));
+  }
 };

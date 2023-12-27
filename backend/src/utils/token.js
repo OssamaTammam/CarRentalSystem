@@ -12,7 +12,8 @@ exports.createJWT = (userId, res) => {
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     // secure: true, //HTTPS only
-    httpOnly: true, //Makes cookie not accessible by js
+    httpOnly: false, //Makes cookie not accessible by js
+    sameSite: "strict",
   };
 
   res.cookie("jwt", token, cookieOptions);
