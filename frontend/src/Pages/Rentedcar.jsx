@@ -1,8 +1,6 @@
-import React from "react";
 import NavBar from "../components/NavBar";
 
 const Rentedcar = () => {
-  const token = localStorage.getItem("token");
   return (
     <>
       <NavBar />

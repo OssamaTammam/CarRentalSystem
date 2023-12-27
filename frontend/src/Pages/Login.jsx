@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +23,6 @@ const Login = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-      credentials: "include", // This includes cookies in the request
     });
 
     if (res.status === 200) {
@@ -112,8 +111,8 @@ const Login = () => {
             </div>
             <div className="top">
               <span>
-                Don't have an account?{" "}
-                <a href="/signup" onclick="register()">
+                Do not have an account?{" "}
+                <a href="/signup" onClick="register()">
                   Sign Up
                 </a>
               </span>
