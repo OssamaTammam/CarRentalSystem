@@ -55,7 +55,7 @@ const Signup = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token) {
+    if (u) {
       window.location.href = "/";
     }
   }, [token]);
