@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -37,11 +37,11 @@ const Signup = () => {
       birthDate,
       password,
     };
+
     const res = await fetch("http://localhost:3000/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include", // This includes cookies in the request
       },
       body: JSON.stringify(user),
     });
@@ -149,7 +149,7 @@ const Signup = () => {
                 className="input-field"
                 placeholder="PhoneNumber"
               />
-              <i class="bx bxs-phone"></i>{" "}
+              <i className="bx bxs-phone"></i>{" "}
             </div>
             <div className="input-box">
               <input
@@ -160,7 +160,7 @@ const Signup = () => {
                 className="input-field"
                 placeholder="Address"
               />
-              <i class="bx bx-home-alt"></i>{" "}
+              <i className="bx bx-home-alt"></i>{" "}
             </div>
             <div className="input-box">
               <input
@@ -171,7 +171,7 @@ const Signup = () => {
                 className="input-field"
                 placeholder="Birthdate"
               />
-              <i class="bx bxs-calendar"></i>{" "}
+              <i className="bx bxs-calendar"></i>{" "}
             </div>
             <div className="input-box">
               <input
@@ -199,7 +199,7 @@ const Signup = () => {
             <div className="top">
               <span>
                 Have an account?{" "}
-                <a href="/login" onclick="login()">
+                <a href="/login" onClick="login()">
                   Login
                 </a>
               </span>

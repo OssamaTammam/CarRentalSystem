@@ -1,9 +1,7 @@
-import React from "react";
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 
 const Home = () => {
-  const token = localStorage.getItem("token");
   const handleClick = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
