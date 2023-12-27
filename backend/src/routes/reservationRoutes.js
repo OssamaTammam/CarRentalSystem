@@ -13,10 +13,9 @@ reservationRouter.route("/reserve").post(reservationController.reserveCar);
 // Auth required to access
 reservationRouter.use(authController.restrictTo("Admin"));
 reservationRouter.route("").get(reservationController.getAllReservations);
-// reservationRouter
-//   .route(":resId")
-//   .get(reservationController.getReservation)
-//   .patch(reservationController.updateReservation)
-//   .delete(reservationController.deleteReservation);
+reservationRouter
+  .route("/:resId")
+  .get(reservationController.getReservation)
+  .delete(reservationController.deleteReservation);
 
 module.exports = reservationRouter;
