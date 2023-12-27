@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -52,13 +53,12 @@ const Signup = () => {
       setError("Invalid Credentials");
     }
   };
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (u) {
+    if (!isLoggedIn()) {
       window.location.href = "/";
     }
-  }, [token]);
+  }, []);
   return (
     <div className="resetPassword">
       <div className="wrapper">
