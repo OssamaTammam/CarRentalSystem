@@ -9,9 +9,7 @@ exports.getAllCars = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
