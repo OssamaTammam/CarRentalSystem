@@ -18,6 +18,7 @@ const NavBar = () => {
   }, []); // Run once on component mount
 
   const handleClick = () => {
+    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     window.location.href = "/";
   };
   return (

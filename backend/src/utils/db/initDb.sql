@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS user(
     password_hash VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
     role ENUM("Admin", "User") DEFAULT "User" NOT NULL,
-    jwt VARCHAR(255) NULL,
     PRIMARY KEY (user_id)
 );
 ALTER TABLE car

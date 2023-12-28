@@ -48,7 +48,8 @@ const Signup = () => {
     });
 
     if (res.status === 200) {
-      window.location.href = "/";
+      const jsonRes = await res.json();
+      document.cookie = `jwt=${jsonRes.data.jwt}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
     } else {
       setError("Invalid Credentials");
     }
