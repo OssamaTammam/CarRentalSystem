@@ -27,9 +27,9 @@ const Account = () => {
       headers: {
         "Content-Type": "application/json",
         credentials: "include",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
       },
     });
-
     const data = await res.json();
     setFirstName(data.firstName);
     setLastName(data.lastName);
@@ -39,12 +39,6 @@ const Account = () => {
     setAddress(data.address);
     setBirthDate(data.birthDate);
   };
-
-  useEffect(() => {
-    if (!isLoggedIn()) {
-      window.location.href = "/";
-    }
-  }, []);
 
   useEffect(() => {
     getUser();
@@ -115,6 +109,7 @@ const Account = () => {
                     <div className="form-group">
                       <label className="form-label">First Name</label>
                       <input
+                        defaultValue={firstName}
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         type="text"

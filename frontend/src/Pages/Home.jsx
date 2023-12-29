@@ -1,46 +1,22 @@
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-const fetchData = async () => {
-  try {
-    // Make a request to your API or server
-    const response = await fetch("http://localhost:3000/car", {
+const Home = () => {
+  const [cars, setCars] = useState([]);
+
+  const getCars = async () => {
+    const res = await fetch("http://localhost:3000/car", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", // This includes cookies in the request
     });
-
-    // Check if the response is successful (status code 200-299)
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    // Parse the JSON data from the response
-    const jsonData = await response.json();
-
-    return jsonData;
-  } catch (error) {
-    console.error("Error fetching data:", error.message);
-  }
-};
-
-const Home = async () => {
-  const [cars, setCars] = useState([]);
-
-  const handleClick = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
+    const data = await res.json();
+    setCars(data?.data?.results.filter((item) => item.isRented === false));
   };
-
   useEffect(() => {
-    async function fetchData() {
-      const result = await fetchData();
-      console.log(result);
-    }
-    fetchData();
+    getCars();
   }, []);
 
   return (
@@ -73,26 +49,7 @@ const Home = async () => {
         </div>
       </nav>
       <div className="main_content">
-        {[
-          {
-            id: 1,
-            name: "Car Name1",
-            description: "Car Description",
-            image: "images/car.jpg",
-          },
-          {
-            id: 2,
-            name: "Car Name2",
-            description: "Car Description",
-            image: "images/car.jpg",
-          },
-          {
-            id: 3,
-            name: "Car Name3",
-            description: "Car Description",
-            image: "images/car.jpg",
-          },
-        ].map((item) => {
+        {cars?.map((item) => {
           return <Card key={item.id} item={item} />;
         })}
       </div>

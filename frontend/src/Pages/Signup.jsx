@@ -55,6 +55,9 @@ const Signup = () => {
     }
   };
 
+  const handleRegister = (e) => {
+    window.location.href = "/login";
+  };
   useEffect(() => {
     if (!isLoggedIn()) {
       window.location.href = "/";
@@ -187,7 +190,7 @@ const Signup = () => {
               <i className="bx bx-lock-alt"></i>
             </div>
             <div className="input-box">
-              <button type="submit" className="submit">
+              <button type="submit" className="submit" onClick={handleRegister}>
                 Register
               </button>
             </div>
