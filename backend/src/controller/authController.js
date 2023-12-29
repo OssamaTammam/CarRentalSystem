@@ -49,8 +49,6 @@ exports.signUp = async (req, res, next) => {
     const userId = result[0].insertId;
     const jwt = await token.createJWT(userId, res);
 
-    await updateJwt(jwt, userId);
-
     res.status(200).json({
       status: "success",
       message: "account created successfully",
@@ -94,7 +92,6 @@ exports.logIn = async (req, res, next) => {
     }
 
     const jwt = await token.createJWT(userId, res);
-    await updateJwt(jwt, userId);
 
     res.status(200).json({
       status: "success",
