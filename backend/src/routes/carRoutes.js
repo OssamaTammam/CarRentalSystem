@@ -8,14 +8,16 @@ const carRouter = express.Router();
 
 // No auth required to access these pages
 carRouter.route("").get(carController.getAllCars);
+carRouter.route("/:carId").get(carController.getCar);
+
+// Login required
+carRouter.use(authController.protect);
+
+// Auth required to access
+carRouter.use(authController.restrictTo("Admin"));
 carRouter.route("").post(carController.addCar);
 carRouter
   .route("/:carId")
-  .get(carController.getCar)
   .delete(carController.deleteCar)
   .patch(carController.updateCar);
-
-// Login required
-
-// Auth required to access
 module.exports = carRouter;

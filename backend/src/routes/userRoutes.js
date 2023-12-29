@@ -4,7 +4,7 @@ const authController = require("../controller/authController");
 const userController = require("../controller/userController");
 const carController = require("../controller/carController");
 
-//const reservationRouter = require("./reservationRoutes");
+const reservationRouter = require("./reservationRoutes");
 const userRouter = express.Router();
 
 // Mount user reservations on top of the user
