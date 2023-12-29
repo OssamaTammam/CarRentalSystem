@@ -1,11 +1,24 @@
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
+import { useState, useEffect } from "react";
 
 const Home = () => {
-  const handleClick = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
+  const [cars, setCars] = useState([]);
+
+  const getCars = async () => {
+    const res = await fetch("http://localhost:3000/car", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setCars(data?.data?.results.filter((item) => item.isRented === false));
   };
+  useEffect(() => {
+    getCars();
+  }, []);
+
   return (
     <div>
       {" "}
@@ -36,26 +49,7 @@ const Home = () => {
         </div>
       </nav>
       <div className="main_content">
-        {[
-          {
-            id: 1,
-            name: "Car Name1",
-            description: "Car Description",
-            image: "images/car.jpg",
-          },
-          {
-            id: 2,
-            name: "Car Name2",
-            description: "Car Description",
-            image: "images/car.jpg",
-          },
-          {
-            id: 3,
-            name: "Car Name3",
-            description: "Car Description",
-            image: "images/car.jpg",
-          },
-        ].map((item) => {
+        {cars?.map((item) => {
           return <Card key={item.id} item={item} />;
         })}
       </div>
