@@ -28,7 +28,7 @@ const fetchData = async () => {
 };
 
 const Home = async () => {
-  const [cars, setCars] = useState();
+  const [cars, setCars] = useState([]);
 
   const handleClick = () => {
     localStorage.removeItem("token");
@@ -38,7 +38,7 @@ const Home = async () => {
   useEffect(() => {
     async function fetchData() {
       const result = await fetchData();
-      setCars(result);
+      console.log(result);
     }
     fetchData();
   }, []);
