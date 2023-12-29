@@ -10,7 +10,7 @@ const carRouter = express.Router();
 carRouter.route("").get(carController.getAllCars);
 carRouter.route("").post(carController.addCar);
 carRouter
-  .route("/:model")
+  .route("/:carId")
   .get(carController.getCar)
   .delete(carController.deleteCar)
   .patch(carController.updateCar);
