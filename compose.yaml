@@ -16,7 +16,7 @@ services:
 
   database:
     image: mysql:8.2.0
-    container_name: car-rental-system-mysql-db
+    container_name: database
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=12345
@@ -24,18 +24,18 @@ services:
       - ./db/script:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     - api
-  #   develop:
-  #     watch:
-  #       - path: ./src
-  #         target: /usr/src/app/src
-  #         action: sync
-  #       - path: ./public
-  #         target: /usr/src/app/public
-  #         action: sync
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 5173:5173
+    depends_on:
+      - api
+    develop:
+      watch:
+        - path: ./src
+          target: /usr/src/app/src
+          action: sync
+        - path: ./public
+          target: /usr/src/app/public
+          action: sync
