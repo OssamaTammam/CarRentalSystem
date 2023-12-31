@@ -1,9 +1,24 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const NavBar = () => {
-  const token = window.localStorage.getItem("token");
+  const [isLoggedInState, setIsLoggedInState] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const result = await isLoggedIn();
+      setIsLoggedInState(result);
+    } catch (error) {
+      console.error("Error checking login status:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); // Run once on component mount
+
   const handleClick = () => {
-    window.localStorage.removeItem("token");
+    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     window.location.href = "/";
   };
   return (
@@ -15,7 +30,7 @@ const NavBar = () => {
       </div>
       <div className="navbar_content">
         <i className="bi bi-grid"></i>
-        {token ? (
+        {isLoggedInState ? (
           <>
             <button onClick={handleClick}>Logout</button>
             <a href="/account">

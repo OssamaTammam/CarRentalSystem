@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,23 +23,28 @@ const Login = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(user),
-      credentials: "include", // This includes cookies in the request
     });
 
     if (res.status === 200) {
+      const jsonRes = await res.json();
+      document.cookie = `jwt=${jsonRes.data.jwt}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
       window.location.href = "/";
     } else {
       setError("Invalid Credentials");
     }
   };
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token) {
-      window.location.href = "/";
+    async function fetchData() {
+      if (await isLoggedIn()) {
+        window.location.href = "/";
+      }
     }
-  }, [token]);
+    fetchData();
+  }, []);
+
   return (
     <div className="resetPassword">
       <div className="wrapper">
@@ -112,8 +118,8 @@ const Login = () => {
             </div>
             <div className="top">
               <span>
-                Don't have an account?{" "}
-                <a href="/signup" onclick="register()">
+                Do not have an account?{" "}
+                <a href="/signup" onClick="register()">
                   Sign Up
                 </a>
               </span>

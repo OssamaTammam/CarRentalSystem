@@ -49,14 +49,13 @@ exports.signUp = async (req, res, next) => {
     const userId = result[0].insertId;
     const jwt = await token.createJWT(userId, res);
 
-    await updateJwt(jwt, userId);
-
     res.status(200).json({
       status: "success",
       message: "account created successfully",
       data: {
         userId,
         username: req.body.username,
+        jwt,
       },
     });
   } catch (error) {
@@ -93,11 +92,13 @@ exports.logIn = async (req, res, next) => {
     }
 
     const jwt = await token.createJWT(userId, res);
-    await updateJwt(jwt, userId);
 
     res.status(200).json({
       status: "success",
       message: `logged in as ${results[0].username}`,
+      data: {
+        jwt,
+      },
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -138,13 +139,8 @@ exports.restrictTo =
 exports.protect = async (req, res, next) => {
   let token;
 
-  if (req.cookies.jwt) {
-    token = req.cookies.jwt;
-  } else if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
+  if (req.body.jwt) {
+    token = req.body.jwt;
   }
 
   if (token === "null" || !token) {
@@ -182,12 +178,11 @@ exports.protect = async (req, res, next) => {
 exports.isLoggedIn = async (req, res, next) => {
   try {
     let token;
-    if (req.cookies.jwt) {
-      token = req.cookies.jwt;
+    if (req.body.jwt) {
+      token = req.body.jwt;
     }
 
     if (token === "null" || !token) {
-      console.log("Token is null or undefined");
       return resGenerator(res, 400, "fail", "You are not logged in");
     }
 

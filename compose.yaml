@@ -1,14 +1,11 @@
 services:
-  car-rental-system-api:
+  api:
     build:
-      context: ./app
+      context: ./backend
     depends_on:
-      - car-rental-system-database
-    environment:
-      NODE_ENV: production
+      - database
     ports:
       - 3000:3000
-      - 35729:35729
     develop:
       watch:
         - path: ./app/package.json
@@ -17,11 +14,28 @@ services:
           target: /usr/src/app
           action: sync
 
-  car-rental-system-database:
+  database:
     image: mysql:8.2.0
-    container_name: car-rental-system-mysql-db
+    container_name: database
     restart: unless-stopped
-    #volumes: 
-    #  - database:/data/db
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+    volumes:
+      - ./db/script:/docker-entrypoint-initdb.d
     ports:
-      - 33066:3306
+      - 3306:3306
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 5173:5173
+    depends_on:
+      - api
+    develop:
+      watch:
+        - path: ./src
+          target: /usr/src/app/src
+          action: sync
+        - path: ./public
+          target: /usr/src/app/public
+          action: sync

@@ -1,8 +1,26 @@
-import React from "react";
+import { useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Rentedcar = () => {
-  const token = localStorage.getItem("token");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [car, setCar] = useState({});
+  const id = searchParams.get("id");
+
+  const getCar = async () => {
+    const res = await fetch(`http://localhost:3000/car/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setCar(data?.data?.results);
+  };
+  useEffect(() => {
+    getCar();
+  }, []);
   return (
     <>
       <NavBar />
@@ -10,7 +28,7 @@ const Rentedcar = () => {
         <img src="images/car.jpg" alt="" />
         <div className="left_content">
           <div>
-            <h1>Car Name</h1>
+            <h1>{car?.model}</h1>
             <p>
               Lorem ipsum dolor sit amet consectetur
               <br />
@@ -20,7 +38,7 @@ const Rentedcar = () => {
               <br /> temporibus quia molestias animi eos dolorum iusto totam
               culpa sit?
             </p>
-            <p className="price">99.99$</p>
+            <p className="price">{car?.price_per_day}</p>
             <div className="datebox">
               <div>
                 <div>From</div>

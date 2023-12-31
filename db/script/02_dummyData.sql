@@ -1,3 +1,4 @@
+USE car_rental_system;
 -- Inserting dummy data into the office table
 INSERT INTO office (location, phone_number, email)
 VALUES (

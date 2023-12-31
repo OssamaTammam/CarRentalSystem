@@ -14,7 +14,7 @@ userRouter.use("/reservations", reservationRouter);
 userRouter.post("/signup", authController.signUp);
 userRouter.post("/login", authController.logIn);
 userRouter.get("/logout", authController.logOut);
-userRouter.get("/isLoggedIn", authController.isLoggedIn);
+userRouter.post("/isLoggedIn", authController.isLoggedIn);
 
 // Login required
 userRouter.use(authController.protect);

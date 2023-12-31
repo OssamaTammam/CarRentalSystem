@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -37,28 +38,32 @@ const Signup = () => {
       birthDate,
       password,
     };
+
     const res = await fetch("http://localhost:3000/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include", // This includes cookies in the request
       },
       body: JSON.stringify(user),
     });
 
     if (res.status === 200) {
-      window.location.href = "/";
+      const jsonRes = await res.json();
+      document.cookie = `jwt=${jsonRes.data.jwt}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
     } else {
       setError("Invalid Credentials");
     }
   };
-  const token = localStorage.getItem("token");
 
+  const handleRegister = (e) => {
+    window.location.href = "/login";
+  };
   useEffect(() => {
-    if (token) {
+    if (!isLoggedIn()) {
       window.location.href = "/";
     }
-  }, [token]);
+  }, []);
+
   return (
     <div className="resetPassword">
       <div className="wrapper">
@@ -149,7 +154,7 @@ const Signup = () => {
                 className="input-field"
                 placeholder="PhoneNumber"
               />
-              <i class="bx bxs-phone"></i>{" "}
+              <i className="bx bxs-phone"></i>{" "}
             </div>
             <div className="input-box">
               <input
@@ -160,7 +165,7 @@ const Signup = () => {
                 className="input-field"
                 placeholder="Address"
               />
-              <i class="bx bx-home-alt"></i>{" "}
+              <i className="bx bx-home-alt"></i>{" "}
             </div>
             <div className="input-box">
               <input
@@ -171,7 +176,7 @@ const Signup = () => {
                 className="input-field"
                 placeholder="Birthdate"
               />
-              <i class="bx bxs-calendar"></i>{" "}
+              <i className="bx bxs-calendar"></i>{" "}
             </div>
             <div className="input-box">
               <input
@@ -185,7 +190,7 @@ const Signup = () => {
               <i className="bx bx-lock-alt"></i>
             </div>
             <div className="input-box">
-              <button type="submit" className="submit">
+              <button type="submit" className="submit" onClick={handleRegister}>
                 Register
               </button>
             </div>
@@ -199,7 +204,7 @@ const Signup = () => {
             <div className="top">
               <span>
                 Have an account?{" "}
-                <a href="/login" onclick="login()">
+                <a href="/login" onClick="login()">
                   Login
                 </a>
               </span>

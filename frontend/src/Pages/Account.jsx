@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const Account = () => {
   const [firstName, setFirstName] = useState("");
@@ -25,7 +26,8 @@ const Account = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        credentials: "include",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
       },
     });
     const data = await res.json();
@@ -37,14 +39,6 @@ const Account = () => {
     setAddress(data.address);
     setBirthDate(data.birthDate);
   };
-
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (!token) {
-      window.location.href = "/login";
-    }
-  }, [token]);
 
   useEffect(() => {
     getUser();
@@ -115,6 +109,7 @@ const Account = () => {
                     <div className="form-group">
                       <label className="form-label">First Name</label>
                       <input
+                        defaultValue={firstName}
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         type="text"

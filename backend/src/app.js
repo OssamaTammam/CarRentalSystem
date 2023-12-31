@@ -8,7 +8,7 @@ const globalErrorHandler = require("./controller/errorController");
 const userRouter = require("./routes/userRoutes");
 const carRouter = require("./routes/carRoutes");
 const reservationRouter = require("./routes/reservationRoutes");
-//const officeRouter = require("./routes/officeRoutes");
+const officeRouter = require("./routes/officeRoutes");
 
 const app = express();
 
@@ -22,10 +22,12 @@ app.use((req, res, next) => {
   next();
 });
 
+const allowedOrigins = ["http://127.0.0.1:5173", "http://localhost:5173"];
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+    origin: allowedOrigins,
+    credentials: true, // Allow credentials (cookies, etc.)
+    exposedHeaders: ["Set-Cookie"], // Specify the headers to expose
   }),
 );
 
@@ -41,7 +43,7 @@ app.use(cookieParser());
 app.use("/user", userRouter);
 app.use("/car", carRouter);
 app.use("/reservation", reservationRouter);
-//app.use("/office", officeRouter);
+app.use("/office", officeRouter);
 
 // Global error handler
 app.use(globalErrorHandler);
