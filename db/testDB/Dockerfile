@@ -6,7 +6,7 @@ FROM mysql:8.2.0
 ENV MYSQL_ROOT_PASSWORD=12345
 
 # Expose the MySQL port
-EXPOSE 3306:6603
+EXPOSE 3306:3306
 
 # Start the MySQL server
 CMD ["mysqld"]
