@@ -4,7 +4,7 @@ const AppError = require("../utils/appError");
 exports.getAllCars = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "SELECT car_id,plate_id,model,year,price_per_day,status,office_id FROM car",
+      "SELECT car_id,plate_id,model,year,price_per_day,status,status FROM car",
     );
 
     res.status(200).json({

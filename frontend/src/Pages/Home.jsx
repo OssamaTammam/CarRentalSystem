@@ -13,8 +13,10 @@ const Home = () => {
       },
     });
     const data = await res.json();
-    setCars(data?.data?.results.filter((item) => item.isRented === false));
+    const cars = data.data.filter((car) => car.status === "Available");
+    setCars(cars);
   };
+
   useEffect(() => {
     getCars();
   }, []);
@@ -50,7 +52,7 @@ const Home = () => {
       </nav>
       <div className="main_content">
         {cars?.map((item) => {
-          return <Card key={item.id} item={item} />;
+          return <Card key={item.car_id} car={item} />;
         })}
       </div>
     </div>
