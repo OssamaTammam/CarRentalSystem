@@ -19,7 +19,7 @@ exports.getAllCars = async (req, res, next) => {
 exports.getCar = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "SELECT plate_id,model,year,price_per_day,status,office_id FROM car WHERE car_id = (?)",
+      "SELECT c.plate_id,c.model,c.year,c.price_per_day,c.status,o.location FROM car AS c JOIN office AS o ON c.office_id=o.office_id WHERE car_id = (?)",
       [req.params.carId],
     );
 

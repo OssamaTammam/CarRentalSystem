@@ -1,6 +1,4 @@
-import React from "react";
-
-const Card = ({ item }) => {
+const Card = ({ car }) => {
   return (
     <div className="card-home">
       <img width="250" height="300" src="images/car.jpg" alt="" />
