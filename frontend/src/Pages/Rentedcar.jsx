@@ -1,12 +1,59 @@
 import { useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import isLoggedIn from "../../utils/isLoggedIn";
 
 const Rentedcar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [car, setCar] = useState([]);
+  const [pickupDate, setPickupDate] = useState();
+  const [returnDate, setReturnDate] = useState("");
   const id = searchParams.get("id");
+
+  const fetchData = async () => {
+    try {
+      const result = await isLoggedIn();
+      if (!result) {
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      console.error("Error checking login status:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []); // Run once on component mount
+
+  const rentCar = async () => {
+    const timeDifference = Date.parse(returnDate) - Date.parse(pickupDate);
+    const noDays = timeDifference / (1000 * 3600 * 24);
+    console.log(noDays);
+    const rentBody = {
+      carId: id,
+      pickupDate: pickupDate,
+      returnDate: returnDate,
+      noDays: noDays,
+      paymentStatus: "Paid",
+    };
+
+    const res = await fetch("http://localhost:3000/reservation/reserve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(rentBody),
+    });
+
+    if (res.ok) {
+      alert("Rented!!!");
+    } else {
+      alert("ERROR!!!");
+    }
+
+    window.location.href = "/";
+  };
 
   const getCar = async () => {
     const res = await fetch(`http://localhost:3000/car/${id}`, {
@@ -40,22 +87,29 @@ const Rentedcar = () => {
               <span>Office Location:</span> {car?.location} <br />
               <span>Office Email:</span> {car?.email} <br />
               <span>Office Phone Number:</span> {car?.phone_number} <br />
-              <span>Price Per Day:</span> {car?.price} <br />
+              <span>Price Per Day:</span> {car?.price_per_day} <br />
             </p>
-            <p className="price">{car?.price_per_day}</p>
             <div className="datebox">
               <div>
                 <div>From</div>
-                <input type="date" />
+                <input
+                  type="date"
+                  value={pickupDate}
+                  onChange={(e) => setPickupDate(e.target.value)}
+                />
               </div>
               <div>
                 <div>To</div>
-                <input type="date" />
+                <input
+                  type="date"
+                  value={returnDate}
+                  onChange={(e) => setReturnDate(e.target.value)}
+                />
               </div>
             </div>
           </div>
-          <a href="/">
-            <button>Rent</button>
+          <a>
+            <button onClick={rentCar}>Rent</button>
           </a>
         </div>
       </div>
