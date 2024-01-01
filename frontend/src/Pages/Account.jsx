@@ -31,7 +31,8 @@ const Account = () => {
       },
       credentials: "include",
     });
-    const user = await res.json().data;
+    const data = await res.json();
+    const user = data.data[0];
     setFirstName(user.firstName);
     setLastName(user.lastName);
     setUserName(user.userName);
@@ -44,6 +45,7 @@ const Account = () => {
 
   useEffect(() => {
     getMe();
+    console.log(role);
   }, []);
 
   const saveChanges = async () => {
