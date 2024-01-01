@@ -8,7 +8,7 @@ const Account = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [password, setPassword] = useState("");
 
@@ -47,7 +47,7 @@ const Account = () => {
   }, []);
 
   const saveChanges = async () => {
-    await fetch("http://localhost:3000/user/me", {
+    const res = await fetch("http://localhost:3000/user/me", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -55,6 +55,9 @@ const Account = () => {
       credentials: "include",
       body: JSON.stringify(user),
     });
+
+    alert(res.ok ? "Changes saved" : "Something went wrong");
+    window.location.reload();
   };
 
   return (
@@ -79,20 +82,17 @@ const Account = () => {
                 >
                   Change password
                 </a>
-                <a
-                  className="list-group-item list-group-item-action"
-                  data-toggle="list"
-                  href="#account-info"
-                >
-                  Info
-                </a>
-                <a
-                  className="list-group-item list-group-item-action"
-                  data-toggle="list"
-                  href="#account-admin"
-                >
-                  Admin
-                </a>
+                {role === "Admin" ? (
+                  <a
+                    className="list-group-item list-group-item-action"
+                    data-toggle="list"
+                    href="#account-admin"
+                  >
+                    Admin
+                  </a>
+                ) : (
+                  <a></a>
+                )}
               </div>
               <a className="back" href="/">
                 <div>Home</div>
@@ -180,39 +180,6 @@ const Account = () => {
                     <div className="form-group">
                       <label className="form-label">Repeat new password</label>
                       <input type="password" className="form-control" />
-                    </div>
-                  </div>
-                </div>
-                <div className="tab-pane fade" id="account-info">
-                  <div className="card-body pb-2">
-                    <div className="form-group">
-                      <label className="form-label">Bio</label>
-                      <textarea
-                        className="form-control"
-                        rows="5"
-                        defaultValue={"Type here your description..."}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Birthday</label>
-                      <input
-                        value={birthDate}
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2">
-                    <h6 className="mb-4">Contacts</h6>
-                    <div className="form-group">
-                      <label className="form-label">Phone</label>
-                      <input
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        type="text"
-                        className="form-control"
-                      />
                     </div>
                   </div>
                 </div>
