@@ -41,14 +41,12 @@ exports.getUser = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "UPDATE user SET first_name = (?),last_name = (?),birth_date = (?),address = (?),phone_number = (?), role = (?) WHERE username = (?)",
+      "UPDATE user SET first_name = (?),last_name = (?),address = (?),phone_number = (?) WHERE username = (?)",
       [
         req.body.firstName,
         req.body.lastName,
-        req.body.birthDate,
         req.body.address,
         req.body.phoneNumber,
-        req.body.role,
         req.params.username,
       ],
     );

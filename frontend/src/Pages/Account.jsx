@@ -8,6 +8,7 @@ const Account = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [role, setRole] = useState("user");
   const [birthDate, setBirthDate] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,9 +17,10 @@ const Account = () => {
     lastName,
     userName,
     email,
+    birthDate,
     phoneNumber,
     address,
-    password,
+    role,
   };
 
   const getUser = async () => {
@@ -38,12 +40,29 @@ const Account = () => {
     setPhoneNumber(data.phoneNumber);
     setAddress(data.address);
     setBirthDate(data.birthDate);
+    setRole(data.role);
   };
 
   useEffect(() => {
     getUser();
   }, []);
 
+  const isAdmin = async () => {
+    data.role === "admin" ? true : false;
+  };
+  const saveChanges = async () => {
+    const res = await fetch("http://localhost:3000/user/me", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await res.json();
+    console.log(res);
+  };
   return (
     <div className="accountgui">
       <div className=" container light-style flex-grow-1 container-p-y">
@@ -130,9 +149,9 @@ const Account = () => {
                       <input
                         value={birthDate}
                         onChange={(e) => setBirthDate(e.target.value)}
-                        type="text"
-                        className="form-control mb-1"
-                      />
+                        type="date"
+                        className="form-control"
+                      ></input>
                       <div className="form-group">
                         <label className="form-label">Address</label>
                         <input
@@ -203,6 +222,7 @@ const Account = () => {
                     </div>
                   </div>
                 </div>
+                {isAdmin}
                 <div className="tab-pane fade" id="account-admin">
                   <div className="card-body pb-2">Reservations Users Cars</div>
                   <hr className="border-light m-0" />
@@ -213,7 +233,11 @@ const Account = () => {
           </div>
         </div>
         <div className="text-right mt-3">
-          <button type="button" className="btn btn-primary">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={saveChanges}
+          >
             Save changes
           </button>
           &nbsp;
