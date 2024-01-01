@@ -19,15 +19,13 @@ exports.getAllCars = async (req, res, next) => {
 exports.getCar = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "SELECT c.plate_id,c.model,c.year,c.price_per_day,c.status,o.location FROM car AS c JOIN office AS o ON c.office_id=o.office_id WHERE car_id = (?)",
+      "SELECT * FROM car AS c JOIN office AS o ON c.office_id=o.office_id JOIN car_specs as cs ON c.car_id = cs.car_id WHERE c.car_id = (?)",
       [req.params.carId],
     );
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));

@@ -89,7 +89,7 @@ const Login = () => {
                 name="email"
                 type="text"
                 className="input-field"
-                placeholder="Username or Email"
+                placeholder="Email"
               />
               <i className="bx bx-user"></i>
             </div>
