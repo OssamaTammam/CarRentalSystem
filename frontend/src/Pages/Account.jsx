@@ -23,46 +23,40 @@ const Account = () => {
     role,
   };
 
-  const getUser = async () => {
+  const getMe = async () => {
     const res = await fetch("http://localhost:3000/user/me", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
-        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
       },
+      credentials: "include",
     });
-    const data = await res.json();
-    setFirstName(data.firstName);
-    setLastName(data.lastName);
-    setUserName(data.userName);
-    setEmail(data.email);
-    setPhoneNumber(data.phoneNumber);
-    setAddress(data.address);
-    setBirthDate(data.birthDate);
-    setRole(data.role);
+    const user = await res.json().data;
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setUserName(user.userName);
+    setEmail(user.email);
+    setPhoneNumber(user.phoneNumber);
+    setAddress(user.address);
+    setBirthDate(user.birthDate);
+    setRole(user.role);
   };
 
   useEffect(() => {
-    getUser();
+    getMe();
   }, []);
 
-  const isAdmin = async () => {
-    data.role === "admin" ? true : false;
-  };
   const saveChanges = async () => {
-    const res = await fetch("http://localhost:3000/user/me", {
-      method: "PUT",
+    await fetch("http://localhost:3000/user/me", {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
-        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
       },
+      credentials: "include",
       body: JSON.stringify(user),
     });
-    const data = await res.json();
-    console.log(res);
   };
+
   return (
     <div className="accountgui">
       <div className=" container light-style flex-grow-1 container-p-y">
@@ -222,7 +216,6 @@ const Account = () => {
                     </div>
                   </div>
                 </div>
-                {isAdmin}
                 <div className="tab-pane fade" id="account-admin">
                   <div className="card-body pb-2">Reservations Users Cars</div>
                   <hr className="border-light m-0" />

@@ -9,9 +9,7 @@ exports.getAllUsers = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -28,9 +26,7 @@ exports.getUser = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -53,9 +49,7 @@ exports.updateUser = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -71,9 +65,7 @@ exports.deleteUser = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -89,9 +81,7 @@ exports.getMe = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -114,9 +104,7 @@ exports.updateMe = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -132,9 +120,7 @@ exports.deleteMe = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
