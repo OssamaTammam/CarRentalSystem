@@ -182,6 +182,10 @@ exports.isLoggedIn = async (req, res, next) => {
       token = req.body.jwt;
     }
 
+    if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+
     if (token === "null" || !token) {
       return resGenerator(res, 400, "fail", "You are not logged in");
     }
