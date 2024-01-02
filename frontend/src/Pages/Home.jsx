@@ -20,6 +20,18 @@ const Home = () => {
     setCars(cars);
   };
 
+  const clearCars = () => {
+    setCars([]);
+  };
+
+  const filterByName = async (e) => {
+    const splitCar = e.target.value.split(" ");
+    const model = splitCar.slice(0, splitCar.length - 1).join(" ");
+    const year = splitCar[splitCar.length - 1];
+    console.log(cars.filter((car) => car.model === model && car.year === year));
+    setCars(cars.filter((car) => car.model === model && car.year === year));
+  };
+
   useEffect(() => {
     getCars();
   }, []);
@@ -33,7 +45,11 @@ const Home = () => {
           <ul className="menu_items">
             <div className="menu_title menu_dahsboard"></div>
             <div className="search_bar">
-              <input type="text" placeholder="Car Name" />
+              <input
+                onChange={filterByName}
+                type="text"
+                placeholder="Car Name"
+              />
             </div>
             <ul>
               <h1>Filters</h1>

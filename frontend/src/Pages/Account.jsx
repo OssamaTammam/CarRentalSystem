@@ -50,7 +50,6 @@ const Account = () => {
 
   useEffect(() => {
     getMe();
-    console.log(role);
   }, []);
 
   const redirectToAdminPage = () => {
