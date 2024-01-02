@@ -121,11 +121,14 @@ const Home = () => {
                 placeholder="Car Name"
               />
             </div>
-            {/* <ul>
+            <ul>
               <h1>Filters</h1>
-              <div className="checkbox">
-                <input id="item1" type="checkbox" />
-                <label htmlFor="item1">Item 1</label>
+              <div className="search_bar">
+                <input
+                  onChange={filterByColor}
+                  type="text"
+                  placeholder="Color"
+                />
               </div>
               <div className="search_bar">
                 <input
