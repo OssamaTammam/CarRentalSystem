@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ReservationReport from "../components/ReservationReport";
 
 const host = import.meta.env.VITE_HOST;
 const port = import.meta.env.VITE_PORT;
@@ -14,8 +15,23 @@ const Admin = () => {
     officeId: "",
     status: "Available",
   });
+  const [reservations, setReservations] = useState([]);
   const [carId, setCarId] = useState("");
   const [reservationId, setReservationId] = useState("");
+
+  const getReservations = async () => {
+    const res = await fetch(`${host}:${port}/reservation`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    const resJSON = await res.json();
+    const reservations = resJSON.data;
+    setReservations(reservations);
+  };
 
   const handleCarInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,11 +81,9 @@ const Admin = () => {
     );
   };
 
-  const processPhoto = (e) => {
-    const fileName = `${car.plateId}-${car.model}-${
-      car.year
-    }-${Date.now()}.jpeg`;
-  };
+  useEffect(() => {
+    getReservations();
+  }, []);
 
   return (
     <div className="accountgui">
@@ -92,6 +106,13 @@ const Admin = () => {
                   href="#admin-reservations"
                 >
                   Reservations
+                </a>
+                <a
+                  className="list-group-item list-group-item-action"
+                  data-toggle="list"
+                  href="#admin-reservations-report"
+                >
+                  Reservations Report
                 </a>
               </div>
               <a className="back" href="/">
@@ -243,8 +264,18 @@ const Admin = () => {
                       Delete Car
                     </button>
                   </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2"></div>
+                </div>
+                <div className="tab-pane fade" id="admin-reservations-report">
+                  <div className="card-body pb-2">
+                    <div className="card-body pb-2">
+                      {reservations.map((reservation) => (
+                        <ReservationReport
+                          key={reservation.reservation_id}
+                          reservation={reservation}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

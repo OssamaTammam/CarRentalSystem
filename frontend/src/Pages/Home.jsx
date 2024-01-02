@@ -122,7 +122,7 @@ const Home = () => {
               />
             </div>
             <ul>
-              <h1>Filters</h1>
+              <h4>Filters</h4>
               <div className="search_bar">
                 <input
                   onChange={filterByColor}
