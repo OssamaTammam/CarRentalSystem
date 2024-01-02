@@ -25,11 +25,26 @@ const Home = () => {
   };
 
   const filterByName = async (e) => {
+    if (e.target.value === "") {
+      clearCars();
+      getCars();
+      return;
+    }
+
     const splitCar = e.target.value.split(" ");
     const model = splitCar.slice(0, splitCar.length - 1).join(" ");
     const year = splitCar[splitCar.length - 1];
-    console.log(cars.filter((car) => car.model === model && car.year === year));
-    setCars(cars.filter((car) => car.model === model && car.year === year));
+    const filteredCars = cars.filter(
+      (car) =>
+        car.model.trim().toLowerCase() === model.trim().toLowerCase() &&
+        car.year === parseInt(year, 10)
+    );
+
+    if (filteredCars.length > 0) {
+      setCars(filteredCars);
+    } else {
+      getCars();
+    }
   };
 
   useEffect(() => {
