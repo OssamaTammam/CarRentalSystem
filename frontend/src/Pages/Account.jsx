@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import isLoggedIn from "../../utils/isLoggedIn";
 
 const host = import.meta.env.VITE_HOST;
 const port = import.meta.env.VITE_PORT;

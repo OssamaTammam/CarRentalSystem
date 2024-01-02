@@ -65,6 +65,12 @@ const Admin = () => {
     );
   };
 
+  const processPhoto = (e) => {
+    const fileName = `${car.plateId}-${car.model}-${
+      car.year
+    }-${Date.now()}.jpeg`;
+  };
+
   return (
     <div className="accountgui">
       <div className=" container light-style flex-grow-1 container-p-y">
@@ -99,6 +105,25 @@ const Admin = () => {
                   <div className="card-body">
                     <div>
                       <h4>Add Car</h4>
+                      <div className="card-body media align-items-center">
+                        <img
+                          src="images/profile.jpg"
+                          className="d-block ui-w-80"
+                        />
+                        <div className="media-body ml-4">
+                          <label className="btn btn-outline-primary">
+                            Upload new photo
+                            <input
+                              type="file"
+                              className="account-settings-fileinput"
+                            />
+                          </label>{" "}
+                          &nbsp;
+                          <div className="text-light small mt-1">
+                            Allowed JPG, GIF or PNG. Max size of 800K
+                          </div>
+                        </div>
+                      </div>
                       <div className="form-group">
                         <label className="form-label">Plate ID</label>
                         <input

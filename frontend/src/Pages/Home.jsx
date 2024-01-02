@@ -66,7 +66,7 @@ const Home = () => {
                 placeholder="Car Name"
               />
             </div>
-            <ul>
+            {/* <ul>
               <h1>Filters</h1>
               <div className="checkbox">
                 <input id="item1" type="checkbox" />
@@ -80,7 +80,7 @@ const Home = () => {
                 <input id="item3" type="checkbox" />
                 <label htmlFor="item3">Item 3</label>
               </div>
-            </ul>
+            </ul> */}
           </ul>
         </div>
       </nav>
