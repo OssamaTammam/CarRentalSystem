@@ -1,9 +1,12 @@
+const host = import.meta.env.VITE_HOST;
+const port = import.meta.env.VITE_PORT;
+
 const isLoggedIn = async () => {
   const jwtToken = encodeURIComponent(
     document.cookie.replace(/(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/, "$1")
   );
 
-  const res = await fetch("http://localhost:3000/user/isLoggedIn", {
+  const res = await fetch(`${host}:${port}/user/isLoggedIn`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

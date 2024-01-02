@@ -139,8 +139,8 @@ exports.restrictTo =
 exports.protect = async (req, res, next) => {
   let token;
 
-  if (req.body.jwt) {
-    token = req.body.jwt;
+  if (req.cookies.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (token === "null" || !token) {
@@ -180,6 +180,10 @@ exports.isLoggedIn = async (req, res, next) => {
     let token;
     if (req.body.jwt) {
       token = req.body.jwt;
+    }
+
+    if (req.cookies.jwt) {
+      token = req.cookies.jwt;
     }
 
     if (token === "null" || !token) {

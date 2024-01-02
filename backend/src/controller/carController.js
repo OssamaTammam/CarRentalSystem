@@ -4,7 +4,7 @@ const AppError = require("../utils/appError");
 exports.getAllCars = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "SELECT car_id,plate_id,model,year,price_per_day,status,office_id FROM car",
+      "SELECT * FROM car NATURAL JOIN car_specs",
     );
 
     res.status(200).json({
@@ -19,15 +19,13 @@ exports.getAllCars = async (req, res, next) => {
 exports.getCar = async (req, res, next) => {
   try {
     const [results, fields] = await dbPool.execute(
-      "SELECT plate_id,model,year,price_per_day,status,office_id FROM car WHERE car_id = (?)",
+      "SELECT * FROM car AS c JOIN office AS o ON c.office_id=o.office_id JOIN car_specs as cs ON c.car_id = cs.car_id WHERE c.car_id = (?)",
       [req.params.carId],
     );
 
     res.status(200).json({
       status: "success",
-      data: {
-        results,
-      },
+      data: results,
     });
   } catch (error) {
     next(new AppError(error.message, 400));
@@ -46,6 +44,11 @@ exports.addCar = async (req, res, next) => {
         req.body.status,
         req.body.officeId,
       ],
+    );
+
+    await dbPool.execute(
+      "INSERT INTO car_specs (car_id,color,horse_power) VALUES (?,?,?)",
+      [results[0].insertId, req.body.color, req.body.horsePower],
     );
 
     res.status(200).json({

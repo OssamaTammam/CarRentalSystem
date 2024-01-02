@@ -13,6 +13,8 @@ services:
         - path: ./app
           target: /usr/src/app
           action: sync
+    networks:
+      - default
 
   database:
     image: mysql:8.2.0
@@ -24,6 +26,9 @@ services:
       - ./db/script:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
+    networks:
+      - default
+
   frontend:
     build:
       context: ./frontend
@@ -39,3 +44,8 @@ services:
         - path: ./public
           target: /usr/src/app/public
           action: sync
+    networks:
+      - default
+
+networks:
+  default:

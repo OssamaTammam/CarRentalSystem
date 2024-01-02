@@ -7,7 +7,7 @@ const reservationRouter = express.Router({ mergeParams: true });
 
 // Login required
 reservationRouter.use(authController.protect);
-reservationRouter.route("").get(reservationController.getMyReservations);
+// reservationRouter.route("").get(reservationController.getMyReservations);
 reservationRouter.route("/reserve").post(reservationController.reserveCar);
 
 // Auth required to access

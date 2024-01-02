@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import isLoggedIn from "../../utils/isLoggedIn";
 
+const host = import.meta.env.VITE_HOST;
+const port = import.meta.env.VITE_PORT;
+
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -39,7 +42,7 @@ const Signup = () => {
       password,
     };
 
-    const res = await fetch("http://localhost:3000/user/signup", {
+    const res = await fetch(`${host}:${port}/user/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

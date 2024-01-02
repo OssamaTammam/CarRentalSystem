@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import isLoggedIn from "../../utils/isLoggedIn";
+
+const host = import.meta.env.VITE_HOST;
+const port = import.meta.env.VITE_PORT;
 
 const Account = () => {
   const [firstName, setFirstName] = useState("");
@@ -8,41 +10,64 @@ const Account = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [role, setRole] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [password, setPassword] = useState("");
+  const [currPassword, setCurrPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const user = {
     firstName,
     lastName,
     userName,
     email,
+    birthDate,
     phoneNumber,
     address,
-    password,
+    role,
   };
 
-  const getUser = async () => {
-    const res = await fetch("http://localhost:3000/user/me", {
+  const getMe = async () => {
+    const res = await fetch(`${host}:${port}/user/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
-        Authorization: `Bearer ${document.cookie.split("=")[1]}`,
       },
+      credentials: "include",
     });
     const data = await res.json();
-    setFirstName(data.firstName);
-    setLastName(data.lastName);
-    setUserName(data.userName);
-    setEmail(data.email);
-    setPhoneNumber(data.phoneNumber);
-    setAddress(data.address);
-    setBirthDate(data.birthDate);
+    const user = data.data[0];
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setUserName(user.userName);
+    setEmail(user.email);
+    setPhoneNumber(user.phoneNumber);
+    setAddress(user.address);
+    setBirthDate(user.birthDate);
+    setRole(user.role);
   };
 
   useEffect(() => {
-    getUser();
+    getMe();
   }, []);
+
+  const redirectToAdminPage = () => {
+    window.location.href = "/admin";
+  };
+
+  const saveChanges = async () => {
+    const res = await fetch(`${host}:${port}/user/me`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(user),
+    });
+
+    alert(res.ok ? "Changes saved" : "Something went wrong");
+    window.location.reload();
+  };
 
   return (
     <div className="accountgui">
@@ -59,27 +84,25 @@ const Account = () => {
                 >
                   General
                 </a>
-                <a
+                {/* <a
                   className="list-group-item list-group-item-action"
                   data-toggle="list"
                   href="#account-change-password"
                 >
                   Change password
-                </a>
-                <a
-                  className="list-group-item list-group-item-action"
-                  data-toggle="list"
-                  href="#account-info"
-                >
-                  Info
-                </a>
-                <a
-                  className="list-group-item list-group-item-action"
-                  data-toggle="list"
-                  href="#account-admin"
-                >
-                  Admin
-                </a>
+                </a> */}
+                {role === "Admin" ? (
+                  <a
+                    className="list-group-item list-group-item-action"
+                    data-toggle="list"
+                    href="#account-admin"
+                    onClick={redirectToAdminPage}
+                  >
+                    Admin
+                  </a>
+                ) : (
+                  <a></a>
+                )}
               </div>
               <a className="back" href="/">
                 <div>Home</div>
@@ -130,9 +153,9 @@ const Account = () => {
                       <input
                         value={birthDate}
                         onChange={(e) => setBirthDate(e.target.value)}
-                        type="text"
-                        className="form-control mb-1"
-                      />
+                        type="date"
+                        className="form-control"
+                      ></input>
                       <div className="form-group">
                         <label className="form-label">Address</label>
                         <input
@@ -158,62 +181,43 @@ const Account = () => {
                   <div className="card-body pb-2">
                     <div className="form-group">
                       <label className="form-label">Current password</label>
-                      <input type="password" className="form-control" />
+                      <input
+                        value={currPassword}
+                        onChange={(e) => setCurrPassword(e.target.value)}
+                        type="password"
+                        className="form-control"
+                      />
                     </div>
                     <div className="form-group">
                       <label className="form-label">New password</label>
-                      <input type="password" className="form-control" />
+                      <input
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        type="password"
+                        className="form-control"
+                      />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Repeat new password</label>
-                      <input type="password" className="form-control" />
-                    </div>
-                  </div>
-                </div>
-                <div className="tab-pane fade" id="account-info">
-                  <div className="card-body pb-2">
-                    <div className="form-group">
-                      <label className="form-label">Bio</label>
-                      <textarea
-                        className="form-control"
-                        rows="5"
-                        defaultValue={"Type here your description..."}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Birthday</label>
                       <input
-                        value={birthDate}
-                        type="text"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="password"
                         className="form-control"
                       />
                     </div>
                   </div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2">
-                    <h6 className="mb-4">Contacts</h6>
-                    <div className="form-group">
-                      <label className="form-label">Phone</label>
-                      <input
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="tab-pane fade" id="account-admin">
-                  <div className="card-body pb-2">Reservations Users Cars</div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2"></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="text-right mt-3">
-          <button type="button" className="btn btn-primary">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={saveChanges}
+          >
             Save changes
           </button>
           &nbsp;
