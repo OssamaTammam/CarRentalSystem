@@ -13,7 +13,9 @@ const Account = () => {
   const [address, setAddress] = useState("");
   const [role, setRole] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [password, setPassword] = useState("");
+  const [currPassword, setCurrPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const user = {
     firstName,
@@ -51,6 +53,10 @@ const Account = () => {
     console.log(role);
   }, []);
 
+  const redirectToAdminPage = () => {
+    window.location.href = "/admin";
+  };
+
   const saveChanges = async () => {
     const res = await fetch(`${host}:${port}/user/me`, {
       method: "PATCH",
@@ -80,18 +86,19 @@ const Account = () => {
                 >
                   General
                 </a>
-                <a
+                {/* <a
                   className="list-group-item list-group-item-action"
                   data-toggle="list"
                   href="#account-change-password"
                 >
                   Change password
-                </a>
+                </a> */}
                 {role === "Admin" ? (
                   <a
                     className="list-group-item list-group-item-action"
                     data-toggle="list"
                     href="#account-admin"
+                    onClick={redirectToAdminPage}
                   >
                     Admin
                   </a>
@@ -176,22 +183,32 @@ const Account = () => {
                   <div className="card-body pb-2">
                     <div className="form-group">
                       <label className="form-label">Current password</label>
-                      <input type="password" className="form-control" />
+                      <input
+                        value={currPassword}
+                        onChange={(e) => setCurrPassword(e.target.value)}
+                        type="password"
+                        className="form-control"
+                      />
                     </div>
                     <div className="form-group">
                       <label className="form-label">New password</label>
-                      <input type="password" className="form-control" />
+                      <input
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        type="password"
+                        className="form-control"
+                      />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Repeat new password</label>
-                      <input type="password" className="form-control" />
+                      <input
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="password"
+                        className="form-control"
+                      />
                     </div>
                   </div>
-                </div>
-                <div className="tab-pane fade" id="account-admin">
-                  <div className="card-body pb-2">Reservations Users Cars</div>
-                  <hr className="border-light m-0" />
-                  <div className="card-body pb-2"></div>
                 </div>
               </div>
             </div>

@@ -46,6 +46,11 @@ exports.addCar = async (req, res, next) => {
       ],
     );
 
+    await dbPool.execute(
+      "INSERT INTO car_specs (car_id,color,horse_power) VALUES (?,?,?)",
+      [results[0].insertId, req.body.color, req.body.horsePower],
+    );
+
     res.status(200).json({
       status: "success",
       data: {
