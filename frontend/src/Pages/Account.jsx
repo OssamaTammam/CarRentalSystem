@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import isLoggedIn from "../../utils/isLoggedIn";
 
+const host = import.meta.env.VITE_HOST;
+const port = import.meta.env.VITE_PORT;
+
 const Account = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,7 +27,7 @@ const Account = () => {
   };
 
   const getMe = async () => {
-    const res = await fetch("http://localhost:3000/user/me", {
+    const res = await fetch(`${host}:${port}/user/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +52,7 @@ const Account = () => {
   }, []);
 
   const saveChanges = async () => {
-    const res = await fetch("http://localhost:3000/user/me", {
+    const res = await fetch(`${host}:${port}/user/me`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

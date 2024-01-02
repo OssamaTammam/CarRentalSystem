@@ -2,11 +2,14 @@ import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 
+const host = import.meta.env.VITE_HOST;
+const port = import.meta.env.VITE_PORT;
+
 const Home = () => {
   const [cars, setCars] = useState([]);
 
   const getCars = async () => {
-    const res = await fetch("http://localhost:3000/car", {
+    const res = await fetch(`${host}:${port}/car`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

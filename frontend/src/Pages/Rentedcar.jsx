@@ -3,6 +3,9 @@ import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import isLoggedIn from "../../utils/isLoggedIn";
 
+const host = import.meta.env.VITE_HOST;
+const port = import.meta.env.VITE_PORT;
+
 const Rentedcar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [car, setCar] = useState([]);
@@ -37,7 +40,7 @@ const Rentedcar = () => {
       paymentStatus: "Paid",
     };
 
-    const res = await fetch("http://localhost:3000/reservation/reserve", {
+    const res = await fetch(`${host}:${port}/reservation/reserve`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +59,7 @@ const Rentedcar = () => {
   };
 
   const getCar = async () => {
-    const res = await fetch(`http://localhost:3000/car/${id}`, {
+    const res = await fetch(`${host}:${port}/car/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
