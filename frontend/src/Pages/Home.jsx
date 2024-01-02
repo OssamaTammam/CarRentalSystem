@@ -47,6 +47,61 @@ const Home = () => {
     }
   };
 
+  const filterByColor = async (e) => {
+    if (e.target.value === "") {
+      clearCars();
+      getCars();
+      return;
+    }
+
+    const color = e.target.value;
+    const filteredCars = cars.filter(
+      (car) => car.color.trim().toLowerCase() === color.trim().toLowerCase()
+    );
+
+    if (filteredCars.length > 0) {
+      setCars(filteredCars);
+    } else {
+      getCars();
+    }
+  };
+
+  const filterByHorsePower = async (e) => {
+    if (e.target.value === "") {
+      clearCars();
+      getCars();
+      return;
+    }
+
+    const horsePower = parseInt(e.target.value, 10);
+    const filteredCars = cars.filter((car) => car.horse_power === horsePower);
+
+    if (filteredCars.length > 0) {
+      setCars(filteredCars);
+    } else {
+      getCars();
+    }
+  };
+
+  const filterByPricePerDay = async (e) => {
+    if (e.target.value === "") {
+      clearCars();
+      getCars();
+      return;
+    }
+
+    const pricePerDay = parseInt(e.target.value, 10);
+    const filteredCars = cars.filter(
+      (car) => car.price_per_day === pricePerDay
+    );
+
+    if (filteredCars.length > 0) {
+      setCars(filteredCars);
+    } else {
+      getCars();
+    }
+  };
+
   useEffect(() => {
     getCars();
   }, []);
@@ -66,21 +121,30 @@ const Home = () => {
                 placeholder="Car Name"
               />
             </div>
-            {/* <ul>
+            <ul>
               <h1>Filters</h1>
-              <div className="checkbox">
-                <input id="item1" type="checkbox" />
-                <label htmlFor="item1">Item 1</label>
+              <div className="search_bar">
+                <input
+                  onChange={filterByColor}
+                  type="text"
+                  placeholder="Color"
+                />
               </div>
-              <div className="checkbox">
-                <input id="item2" type="checkbox" />
-                <label htmlFor="item2">Item 2</label>
+              <div className="search_bar">
+                <input
+                  onChange={filterByHorsePower}
+                  type="text"
+                  placeholder="Horse Power"
+                />
               </div>
-              <div className="checkbox">
-                <input id="item3" type="checkbox" />
-                <label htmlFor="item3">Item 3</label>
+              <div className="search_bar">
+                <input
+                  onChange={filterByPricePerDay}
+                  type="text"
+                  placeholder="Price Per Day"
+                />
               </div>
-            </ul> */}
+            </ul>
           </ul>
         </div>
       </nav>
